@@ -13,16 +13,12 @@ CREATE TABLE IF NOT EXISTS client(
 
 CREATE TABLE IF NOT EXISTS project(
 	id INT PRIMARY KEY AUTO_INCREMENT,
+	client_id INT,
 	start_date DATE NOT NULL,
 	finish_date DATE NOT NULL,
-    client_id BIGINT NOT NULL,
-    name VARCHAR(1000)
+    name VARCHAR(1000),
+    FOREIGN KEY (client_id) REFERENCES client (id)
 );
-
-ALTER TABLE project 
-ADD CONSTRAINT client_id_fk 
-FOREIGN KEY(client_id) 
-REFERENCES client(id);
 
 CREATE TABLE IF NOT EXISTS project_worker(
 	project_id BIGINT NOT NULL,
