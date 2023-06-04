@@ -1,3 +1,5 @@
+import feature.prefs.Prefs;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -9,7 +11,7 @@ public class Database {
     private Connection connection;
     private Database() {
         try {
-            String connectionUrl = "jdbc:h2:C:/Users/armyl/goit_dev_3_hw_database_test";
+            String connectionUrl = new Prefs().getString(Prefs.DB_JDBC_CONNECTION_URL);
             connection = DriverManager.getConnection(connectionUrl);
             Statement statement = connection.createStatement();
         } catch (Exception ex) {
