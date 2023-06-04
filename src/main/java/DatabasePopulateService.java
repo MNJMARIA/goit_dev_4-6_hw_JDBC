@@ -5,7 +5,18 @@ import java.util.List;
 
 public class DatabasePopulateService {
     public static void main(String[] args) {
-        /*Завдання №3 - створити клас для наповнення таблиць БД
+        /*
+        ALTER TABLE client ALTER COLUMN id RESTART WITH 1;
+ALTER TABLE worker ALTER COLUMN id RESTART WITH 1;
+ALTER TABLE project ALTER COLUMN id RESTART WITH 1;
+DELETE FROM client;
+DELETE FROM worker;
+DELETE FROM project;
+DELETE FROM project_worker;
+
+
+
+        Завдання №3 - створити клас для наповнення таблиць БД
 
         Створи клас з назвою DatabasePopulateService.
         У цьому класі має бути метод public static void main(String[] args),

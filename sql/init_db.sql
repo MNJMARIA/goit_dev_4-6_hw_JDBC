@@ -27,4 +27,3 @@ CREATE TABLE IF NOT EXISTS project_worker(
 	FOREIGN KEY (worker_id) REFERENCES worker (id),
 	FOREIGN KEY (project_id) REFERENCES project (id)
 );
-
