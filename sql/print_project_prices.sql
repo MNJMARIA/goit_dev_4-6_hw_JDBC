@@ -6,4 +6,3 @@ JOIN worker ON worker.id = project_worker.worker_id
 GROUP BY project.id
 ORDER BY project_cost DESC;
 
-

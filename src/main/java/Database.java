@@ -1,9 +1,6 @@
 import feature.prefs.Prefs;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Database {
     private static final Database INSTANCE = new Database();
@@ -33,7 +30,14 @@ public class Database {
             return -1;
         }
     }
-
+    public ResultSet executeQuery(String sql){
+        try(Statement st = connection.createStatement()){
+            return st.executeQuery(sql);
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
+    }
     public Connection getConnection(){
         return connection;
     }
