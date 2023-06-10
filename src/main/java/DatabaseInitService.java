@@ -1,5 +1,8 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseInitService {
     public static void main(String[] args) {
@@ -14,17 +17,30 @@ public class DatabaseInitService {
         Database database = Database.getInstance();
         String sqlInitPath = "C:\\Users\\armyl\\IdeaProjects\\goit_dev_4_hw_gradle\\sql\\init_db.sql";
 
-        StringBuilder sqlCodeFromFile = new StringBuilder();
-        try{
+        try {
             BufferedReader reader = new BufferedReader(new FileReader(sqlInitPath));
             String line;
-            while((line = reader.readLine()) != null){
-                sqlCodeFromFile.append(line);
+            StringBuilder sqlCode = new StringBuilder();
+            List<String> queries = new ArrayList<>();
+
+            while ((line = reader.readLine()) != null) {
+                if (!line.trim().isEmpty()) {
+                    sqlCode.append(line);
+                    if (line.trim().endsWith(";")) {
+                        queries.add(sqlCode.toString());
+                        sqlCode = new StringBuilder();
+                    }
+                }
+            }
+
+            for (String query : queries) {
+                PreparedStatement preparedStatement = database.getConnection().prepareStatement(query);
+                preparedStatement.executeUpdate();
+
+                preparedStatement.close();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-        database.executeUpdate(sqlCodeFromFile.toString());
     }
 }

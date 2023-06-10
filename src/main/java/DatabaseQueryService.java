@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
@@ -17,7 +18,7 @@ public class DatabaseQueryService {
     }
 
     private static  Database database = Database.getInstance();
-    private static Statement st;
+    private static PreparedStatement st;
     private static ResultSet rs;
 
     public static void findMaxSalaryWorker(){
@@ -25,8 +26,8 @@ public class DatabaseQueryService {
 
         try {
             String query = readQueryFromFile(sqlFindMaxSalaryWorkerPath);
-            st = database.getConnection().createStatement();
-            boolean hasResult = st.execute(query);
+            st = database.getConnection().prepareStatement(query);
+            boolean hasResult = st.execute();
             if (hasResult) {
                 rs = st.getResultSet();
                 System.out.println("\nRESULT FOR TASK 3(find max salary):");
@@ -51,8 +52,8 @@ public class DatabaseQueryService {
 
         try {
             String query = readQueryFromFile(sqlFindMaxProjectsClientPath);
-            st = database.getConnection().createStatement();
-            boolean hasResult = st.execute(query);
+            st = database.getConnection().prepareStatement(query);
+            boolean hasResult = st.execute();
             if (hasResult) {
                 rs = st.getResultSet();
                 System.out.println("\nRESULT FOR TASK 4(find max projects client):");
@@ -77,8 +78,8 @@ public class DatabaseQueryService {
 
         try {
             String query = readQueryFromFile(sqlFindLongestProjectPath);
-            st = database.getConnection().createStatement();
-            boolean hasResult = st.execute(query);
+            st = database.getConnection().prepareStatement(query);
+            boolean hasResult = st.execute();
             if (hasResult) {
                 rs = st.getResultSet();
                 System.out.println("\nRESULT FOR TASK 5(find longest project):");
@@ -102,8 +103,8 @@ public class DatabaseQueryService {
 
         try {
             String query = readQueryFromFile(sqlFindYoungestEldestWorkersPath);
-            st = database.getConnection().createStatement();
-            boolean hasResult = st.execute(query);
+            st = database.getConnection().prepareStatement(query);
+            boolean hasResult = st.execute();
 
             if (hasResult) {
                 rs = st.getResultSet();
@@ -129,9 +130,9 @@ public class DatabaseQueryService {
         String sqlPrintProjectPricesPath = "C:\\Users\\armyl\\IdeaProjects\\goit_dev_4_hw_gradle\\sql\\print_project_prices.sql";
 
         try {
-            st = database.getConnection().createStatement();
             String query = readQueryFromFile(sqlPrintProjectPricesPath);
-            boolean hasResult = st.execute(query);
+            st = database.getConnection().prepareStatement(query);
+            boolean hasResult = st.execute();
 
             if (hasResult) {
                  rs = st.getResultSet();

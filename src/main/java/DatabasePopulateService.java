@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +46,10 @@ DELETE FROM project_worker;
             }
 
             for (String query : queries) {
-                System.out.println("Query: \n" + query );
-                database.executeUpdate(query);
+                PreparedStatement preparedStatement = database.getConnection().prepareStatement(query);
+                preparedStatement.executeUpdate();
+
+                preparedStatement.close();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
