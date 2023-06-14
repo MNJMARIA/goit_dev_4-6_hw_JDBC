@@ -1,3 +1,6 @@
+import feature.prefs.Prefs;
+import org.flywaydb.core.Flyway;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.PreparedStatement;
@@ -14,33 +17,17 @@ public class DatabaseInitService {
         Для роботи з БД використовуй написаний раніше тобою клас Database.
         Результат запуску цього класу - проініцалізована база даних
         з коректно створеними таблицями та зв'язками між цими таблицями.*/
-        Database database = Database.getInstance();
-        String sqlInitPath = "C:\\Users\\armyl\\IdeaProjects\\goit_dev_4_hw_gradle\\sql\\init_db.sql";
+        //Database database = Database.getInstance();
+        String connectionUrl = new Prefs().getString(Prefs.DB_JDBC_CONNECTION_URL);
 
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(sqlInitPath));
-            String line;
-            StringBuilder sqlCode = new StringBuilder();
-            List<String> queries = new ArrayList<>();
+        //Create the Flyway instance and point to the database
+        Flyway flyway = Flyway
+                .configure()
+                .dataSource(connectionUrl, null, null)
+                .load();
 
-            while ((line = reader.readLine()) != null) {
-                if (!line.trim().isEmpty()) {
-                    sqlCode.append(line);
-                    if (line.trim().endsWith(";")) {
-                        queries.add(sqlCode.toString());
-                        sqlCode = new StringBuilder();
-                    }
-                }
-            }
+        //Start the migration
+        flyway.migrate();
 
-            for (String query : queries) {
-                PreparedStatement preparedStatement = database.getConnection().prepareStatement(query);
-                preparedStatement.executeUpdate();
-
-                preparedStatement.close();
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
 }
